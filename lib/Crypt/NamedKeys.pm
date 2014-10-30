@@ -184,7 +184,7 @@ my $get_keyhash = sub {
    return $keyhash if $keyhash;
    reload_keyhash();
    return $keyhash;
-}
+};
 
 sub reload_keyhash {
     croak 'No keyfile defined (use keyfile() to set)' unless $keyfile;
@@ -196,13 +196,13 @@ my $get_secret = sub {
     my %args = @_;
     croak 'No key name specified'   unless $args{keyname};
     croak 'No key number specified' unless $args{keynum};
-    my $keytab = $get_keyhash()->{$args{keyname}};
+    my $keytab = &$get_keyhash()->{$args{keyname}};
     return $keytab->{$args{keynum}};
 };
 
 sub _default_keynum {
     my $self   = shift;
-    my $keytab = $get_keyhash()->{$self->keyname};
+    my $keytab = &$get_keyhash()->{$self->keyname};
     warn 'No default key found for ' . $self->keyname
       unless $keytab->{default_keynum};
     return $keytab->{default_keynum};
