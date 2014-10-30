@@ -4,7 +4,7 @@ use Moo;
 
 =head1 NAME
 
-Crypt::NamedKeys
+Crypt::NamedKeys - A Crypt::CBC wrapper with key rotation support
 
 =head1 SYNOPSYS
 
@@ -155,22 +155,48 @@ use String::Compare::ConstantTime;
 use Try::Tiny;
 use YAML::XS;
 
+
 our $VERSION = '0.0.1';
+
+=head1 PROPERTIES
+
+=head2 keynum
+
+Defaults to the default keynumber specified in the keyfile (for encryption)
+
+=cut
 
 has keynum => (
     is      => 'ro',
-    isa     => 'Maybe[Str]',
     lazy    => 1,
     builder => '_default_keynum',
 );
 
+=head2 keyname
+
+The name of the key in the keyfile.
+
+=cut
+
 has keyname => (
     is       => 'ro',
-    isa      => 'Str',
     required => 1,
 );
 
 my $keyfile;
+
+=head1 METHODS AND FUNCTIONS
+
+=cut
+=head2 Crypt::NamedKeys->keyfile($path)
+
+Can also be called as Crypt::NamedKeys::keyfile($path)
+
+Sets the path of the keyfile.  It does not load or reload it (that is done on
+demand or by reload_keyfile() below
+
+=cut
+
 sub keyfile {
     my $file = shift;
     $file = shift if $file eq __PACKAGE__;
@@ -185,6 +211,16 @@ my $get_keyhash = sub {
    reload_keyhash();
    return $keyhash;
 };
+
+=head2 reload_keyhash
+
+Can be called as an object method or function (i.e. 
+Crypt::NamedKeys::reload_keyhash()
+
+Loads or reloads the keyfile.  Can be used via event handlers to reload
+confguration as needed
+
+=cut
 
 sub reload_keyhash {
     croak 'No keyfile defined (use keyfile() to set)' unless $keyfile;
@@ -213,7 +249,7 @@ my $mac_secret = sub {
     return sha256(&$get_secret(@_));    ## nocritic
 };
 
-=head2 $ self->encrypt_data(data => $data)
+=head2 $self->encrypt_data(data => $data)
 
 Serialize I<$data> to JSON, encrypt it, and encode as base64. Also compute HMAC
 code for the encrypted data. Returns hash reference with 'data' and 'mac'
@@ -230,6 +266,8 @@ Data structure reference to be encrypted
 =item cypher
 
 Cypher to use (default: Rijndael)
+
+=back
 
 =cut
 
