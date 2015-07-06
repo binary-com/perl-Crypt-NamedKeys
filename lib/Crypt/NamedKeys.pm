@@ -62,6 +62,8 @@ In general we assume key spefications to use numeric keys within the named
 key hash.  This makes key rotation a lot easier and prevents reusing key 
 numbers.
 
+Key names may not contain = or -.
+
 All keys listed can be used for decryption (with the special 'none' key used if
 no key number is specified in the cyphertex), but by default only the default 
 keynumber (default_keynum, in this case 9) is used for encrypting.
@@ -156,7 +158,19 @@ use Try::Tiny;
 use YAML::XS;
 
 
-our $VERSION = '0.0.2';
+our $VERSION = '1.0.0';
+
+=head1 CONFIGURATION PARAMETERS
+
+=head2 $Crypt::NamedKeys::Escape_Eq;
+
+Set to true, using local or not, if you want to encode with - instead of =
+
+Note that on decryption both are handled.
+
+=cut
+
+our $Escape_Eq = 0;
 
 =head1 PROPERTIES
 
@@ -295,6 +309,8 @@ sub encrypt_data {
             keyname => $self->keyname,
             keynum  => $self->keynum
         ));
+    $data =~ s/=/-/g if $Escape_Eq;
+    $mac =~ s/=/-/g if $Escape_Eq;
     return {
         data => $self->keynum . '*' . $data,
         mac  => $mac,
@@ -314,6 +330,8 @@ sub decrypt_data {
     croak "method requires data and mac arguments" unless $args{data} and $args{mac};
     # if the data was tampered do not try to decrypt it
 
+    $args{data} =~ s/-/=/g;
+    $args{mac} =~ s/-/=/g;
     my ($keynum, $cyphertext) = split /\*/, $args{data}, 2;
 
     if (!$cyphertext) {
