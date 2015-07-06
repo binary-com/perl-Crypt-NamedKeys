@@ -310,6 +310,7 @@ sub encrypt_data {
             keynum  => $self->keynum
         ));
     $data =~ s/=/-/g if $Escape_Eq;
+    $mac =~ s/=/-/g if $Escape_Eq;
     return {
         data => $self->keynum . '*' . $data,
         mac  => $mac,
@@ -330,6 +331,7 @@ sub decrypt_data {
     # if the data was tampered do not try to decrypt it
 
     $args{data} =~ s/-/=/g;
+    $args{mac} =~ s/-/=/g;
     my ($keynum, $cyphertext) = split /\*/, $args{data}, 2;
 
     if (!$cyphertext) {
