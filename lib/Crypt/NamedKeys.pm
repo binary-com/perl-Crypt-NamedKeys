@@ -158,7 +158,7 @@ use Try::Tiny;
 use YAML::XS;
 
 
-our $VERSION = '1.1.0';
+our $VERSION = '1.1.1';
 
 =head1 CONFIGURATION PARAMETERS
 
@@ -408,7 +408,7 @@ the value. Returns decripted value or undef if check or decryption has failed.
 sub decrypt_payload {
     my ($self, %args) = @_;
     return unless $args{value};    # nothing to decrypt
-    $args{value} =~ /^([A-Za-z0-9+\/*]+=*)\.([A-Za-z0-9+\/]+)$/ or return;
+    $args{value} =~ /^([A-Za-z0-9+\/*]+[=-]*)\.([A-Za-z0-9+\/-=]+)$/ or return;
     my ($data, $mac) = ($1, $2);
     return _from_payload(
         $self->decrypt_data(
