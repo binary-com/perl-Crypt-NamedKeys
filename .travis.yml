@@ -14,15 +14,15 @@ before_install:
   - source ~/travis-perl-helpers/init
   - build-perl
   - perl -V
-  - 'cpanm Crypt::CBC'
-  - 'cpanm Crypt::Rijndael'
-  - 'cpanm Carp'
-  - 'cpanm Moo'
-  - 'cpanm Test::Most'
-  - 'cpanm Try::Tiny'
-  - 'cpanm YAML::XS'
-  - 'cpanm JSON'
-  - 'cpanm Devel::Cover::Report::Coveralls'
+  - 'cpanm -n Crypt::CBC'
+  - 'cpanm -n Crypt::Rijndael'
+  - 'cpanm -n Carp'
+  - 'cpanm -n Moo'
+  - 'cpanm -n Test::Most'
+  - 'cpanm -n Try::Tiny'
+  - 'cpanm -n YAML::XS'
+  - 'cpanm -n JSON'
+  - 'cpanm -n Devel::Cover::Report::Coveralls'
 script:
   perl Makefile.PL && make test && cover -test -report coveralls
 
