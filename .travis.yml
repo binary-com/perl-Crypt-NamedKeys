@@ -23,6 +23,7 @@ before_install:
   - 'cpanm -n YAML::XS'
   - 'cpanm -n JSON'
   - 'cpanm -n Devel::Cover::Report::Coveralls'
+  - 'cpanm -n Test::NoWarnings'
 script:
   perl Makefile.PL && make test && cover -test -report coveralls
 
