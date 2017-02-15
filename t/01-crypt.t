@@ -6,12 +6,12 @@ use Data::Dumper;
 
 Crypt::NamedKeys->keyfile('t/config/aes_keys.yml');
 
-
-
 my $test_data = {
     aaa => 'bbb',
     ccc => 'ddd',
-    eee => {fff => 'ggg',},
+    eee => {
+        fff => 'ggg',
+    },
     hhh => [qw(iii jjj kkk)],
 };
 

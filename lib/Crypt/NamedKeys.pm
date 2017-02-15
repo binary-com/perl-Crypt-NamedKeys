@@ -157,7 +157,6 @@ use String::Compare::ConstantTime;
 use Try::Tiny;
 use YAML::XS;
 
-
 our $VERSION = '1.1.1';
 
 =head1 CONFIGURATION PARAMETERS
@@ -202,6 +201,7 @@ my $keyfile;
 =head1 METHODS AND FUNCTIONS
 
 =cut
+
 =head2 Crypt::NamedKeys->keyfile($path)
 
 Can also be called as Crypt::NamedKeys::keyfile($path)
@@ -221,9 +221,9 @@ sub keyfile {
 my $keyhash;
 
 my $get_keyhash = sub {
-   return $keyhash if $keyhash;
-   reload_keyhash();
-   return $keyhash;
+    return $keyhash if $keyhash;
+    reload_keyhash();
+    return $keyhash;
 };
 
 =head2 reload_keyhash
@@ -254,7 +254,7 @@ sub _default_keynum {
     my $self   = shift;
     my $keytab = &$get_keyhash()->{$self->keyname};
     warn 'No default key found for ' . $self->keyname
-      unless $keytab->{default_keynum};
+        unless $keytab->{default_keynum};
     return $keytab->{default_keynum};
 }
 
@@ -310,12 +310,12 @@ sub encrypt_data {
             keynum  => $self->keynum
         ));
     $data =~ s/=/-/g if $Escape_Eq;
-    $mac =~ s/=/-/g if $Escape_Eq;
+    $mac =~ s/=/-/g  if $Escape_Eq;
     return {
         data => $self->keynum . '*' . $data,
         mac  => $mac,
     };
-} 
+}
 
 =head2 $self->decrypt_data(data => $data, mac => $mac)
 
