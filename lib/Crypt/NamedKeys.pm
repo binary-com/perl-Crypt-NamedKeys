@@ -159,7 +159,7 @@ use String::Compare::ConstantTime;
 use Try::Tiny;
 use YAML::XS;
 
-our $VERSION = '1.1.1';
+our $VERSION = '1.1.2';
 
 =head1 CONFIGURATION PARAMETERS
 
