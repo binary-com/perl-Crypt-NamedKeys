@@ -1,5 +1,7 @@
 package Crypt::NamedKeys;
 
+use strict;
+use warnings;
 use Moo;
 
 =head1 NAME
