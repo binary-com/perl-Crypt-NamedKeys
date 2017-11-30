@@ -153,7 +153,8 @@ associated with the cyphertext, so we use this key.
 use Carp;
 use Crypt::CBC;
 use Digest::SHA qw(hmac_sha256_base64 sha256);
-use JSON;
+use Encode;
+use JSON::MaybeXS;
 use MIME::Base64;
 use String::Compare::ConstantTime;
 use Try::Tiny;
@@ -291,7 +292,7 @@ Cypher to use (default: Rijndael)
 sub encrypt_data {
     my ($self, %args) = @_;
     croak "data argument is required and must be a reference" unless $args{data} and ref $args{data};
-    my $json_data = encode_json($args{data});
+    my $json_data = Encode::encode_utf8(JSON::MaybeXS->new->encode($args{data}));
     my $cypher = $args{cypher} || 'Rijndael';
     # Crypt::CBC generates random 8 bytes salt that it uses to
     # derive IV and encryption key from $args{secret}. It uses
@@ -364,7 +365,7 @@ sub decrypt_data {
     );
     my $decrypted = $cbc->decrypt(decode_base64($cyphertext));
     warn "Unable to decrypt $args{data} with keynum $keynum and keyname " . $self->keyname unless defined $decrypted;
-    my $data = decode_json($decrypted);
+    my $data = JSON::MaybeXS->new->decode(Encode::decode_utf8($decrypted));
     return $data;
 }
 

@@ -2,7 +2,7 @@ requires 'Carp';
 requires 'Crypt::CBC';
 requires 'Crypt::Rijndael';
 requires 'Digest::SHA';
-requires 'JSON';
+requires 'JSON::MaybeXS';
 requires 'MIME::Base64';
 requires 'Moo';
 requires 'String::Compare::ConstantTime';
