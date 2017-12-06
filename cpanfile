@@ -17,4 +17,5 @@ on configure => sub {
 on test => sub {
     requires 'Test::Differences';
     requires 'Test::Most';
+    requires 'Test::NoWarnings';
 };
