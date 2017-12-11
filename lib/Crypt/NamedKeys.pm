@@ -289,10 +289,11 @@ Cypher to use (default: Rijndael)
 
 =cut
 
+my $json = JSON::MaybeXS->new;
 sub encrypt_data {
     my ($self, %args) = @_;
     croak "data argument is required and must be a reference" unless $args{data} and ref $args{data};
-    my $json_data = Encode::encode_utf8(JSON::MaybeXS->new->encode($args{data}));
+    my $json_data = Encode::encode_utf8($jsonencode($args{data}));
     my $cypher = $args{cypher} || 'Rijndael';
     # Crypt::CBC generates random 8 bytes salt that it uses to
     # derive IV and encryption key from $args{secret}. It uses
@@ -365,7 +366,7 @@ sub decrypt_data {
     );
     my $decrypted = $cbc->decrypt(decode_base64($cyphertext));
     warn "Unable to decrypt $args{data} with keynum $keynum and keyname " . $self->keyname unless defined $decrypted;
-    my $data = JSON::MaybeXS->new->decode(Encode::decode_utf8($decrypted));
+    my $data = $json->decode(Encode::decode_utf8($decrypted));
     return $data;
 }
 
