@@ -293,7 +293,7 @@ my $json = JSON::MaybeXS->new;
 sub encrypt_data {
     my ($self, %args) = @_;
     croak "data argument is required and must be a reference" unless $args{data} and ref $args{data};
-    my $json_data = Encode::encode_utf8($jsonencode($args{data}));
+    my $json_data = Encode::encode_utf8($json->encode($args{data}));
     my $cypher = $args{cypher} || 'Rijndael';
     # Crypt::CBC generates random 8 bytes salt that it uses to
     # derive IV and encryption key from $args{secret}. It uses
