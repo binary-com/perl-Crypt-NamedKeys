@@ -157,7 +157,6 @@ use Encode;
 use JSON::MaybeXS;
 use MIME::Base64;
 use String::Compare::ConstantTime;
-use Try::Tiny;
 use YAML::XS;
 
 our $VERSION = '1.1.2';
