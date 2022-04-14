@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run:
           command:
-            cpm install -g --no-test Dist::Zilla Dist::Zilla::App::Command::cover
+            cpm install -g --no-test Dist::Zilla Dist::Zilla::App::Command::cover ExtUtils::MakeMaker
           name: Install Dzil
       - run:
           name: Install dzil author dependencies
