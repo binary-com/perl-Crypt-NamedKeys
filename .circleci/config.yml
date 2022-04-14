@@ -22,9 +22,7 @@ jobs:
       - run:
           name: Install dist deps
           command: |
-            cpm install -g \
-            -w 2 \
-            --mirror=http://cpan.cpantesters.org/ $(dzil listdeps --author --missing --cpanm-versions)
+            dzil listdeps --author --missing --cpanm-versions | cpanm -g
       - run:
           name: Run Tests
           command: |
