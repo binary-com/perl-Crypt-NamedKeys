@@ -1,5 +1,7 @@
 requires 'Carp';
-requires 'Crypt::CBC';
+# Crypt::CBC v3.01 will deprecate opensslv1 PBKDF, which is used in the code
+# Maybe we need to change our code
+requires 'Crypt::CBC', '<= 2.37';
 requires 'Crypt::Rijndael';
 requires 'Digest::SHA';
 requires 'JSON::MaybeXS';
