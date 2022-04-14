@@ -24,7 +24,7 @@ jobs:
           command: |
             cpm install -g \
             -w 2 \
-            --mirror=http://cpan.cpantesters.org/ $(dzil listdeps --author --missing)
+            --mirror=http://cpan.cpantesters.org/ $(dzil listdeps --author --missing --cpanm-versions)
       - run:
           name: Run Tests
           command: |
