@@ -159,7 +159,7 @@ use MIME::Base64;
 use String::Compare::ConstantTime;
 use YAML::XS;
 
-our $VERSION = '1.1.2';
+our $VERSION = '1.13';
 
 =head1 CONFIGURATION PARAMETERS
 
