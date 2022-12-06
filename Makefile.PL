@@ -2,32 +2,36 @@
 use strict;
 use warnings;
 
-use 5.014000;
+use 5.006;
 
-use ExtUtils::MakeMaker 6.48;
+use ExtUtils::MakeMaker 7.64;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "A Crypt::CBC wrapper with key rotation support",
   "AUTHOR" => "binary.com <BINARY\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
-    "ExtUtils::MakeMaker" => "6.48"
+    "ExtUtils::MakeMaker" => "7.64"
   },
   "DISTNAME" => "Crypt-NamedKeys",
   "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.014000",
+  "MIN_PERL_VERSION" => "5.006",
   "NAME" => "Crypt::NamedKeys",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "Crypt::CBC" => 0,
+    "Crypt::CBC" => ">= 0, <= 2.37",
     "Crypt::Rijndael" => 0,
     "Digest::SHA" => 0,
+    "Encode" => 0,
     "JSON::MaybeXS" => 0,
     "MIME::Base64" => 0,
     "Moo" => 0,
     "String::Compare::ConstantTime" => 0,
-    "YAML::XS" => 0
+    "YAML::XS" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
   "TEST_REQUIRES" => {
+    "Data::Dumper" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
@@ -35,10 +39,10 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::Differences" => 0,
     "Test::More" => "0.94",
-    "Test::Most" => 0,
+    "Test::Most" => "0.22",
     "Test::NoWarnings" => 0
   },
-  "VERSION" => "1.1.2",
+  "VERSION" => "1.14",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -47,9 +51,11 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
-  "Crypt::CBC" => 0,
+  "Crypt::CBC" => ">= 0, <= 2.37",
   "Crypt::Rijndael" => 0,
+  "Data::Dumper" => 0,
   "Digest::SHA" => 0,
+  "Encode" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
@@ -61,9 +67,11 @@ my %FallbackPrereqs = (
   "Test::CheckDeps" => "0.010",
   "Test::Differences" => 0,
   "Test::More" => "0.94",
-  "Test::Most" => 0,
+  "Test::Most" => "0.22",
   "Test::NoWarnings" => 0,
-  "YAML::XS" => 0
+  "YAML::XS" => 0,
+  "strict" => 0,
+  "warnings" => 0
 );
 
 

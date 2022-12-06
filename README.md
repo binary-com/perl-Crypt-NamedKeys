@@ -1,8 +1,5 @@
 # NAME
 
-[![Build Status](https://travis-ci.org/binary-com/perl-Crypt-NamedKeys.svg?branch=master)](https://travis-ci.org/binary-com/perl-Crypt-NamedKeys)
-[![codecov](https://codecov.io/gh/binary-com/perl-Crypt-NamedKeys/branch/master/graph/badge.svg)](https://codecov.io/gh/binary-com/perl-Crypt-NamedKeys)
-
 Crypt::NamedKeys - A Crypt::CBC wrapper with key rotation support
 
 # SYNOPSYS
@@ -24,10 +21,10 @@ data unreadable.
 
 # CONFIGURATION AND KEY ROTATION
 
-The keys are stored in the keyfile, configurable as below.  Keys are numbered 
-starting at 1.  Numbers must never be reused.  Typically key rotation will be 
-done in several steps, each with its own rollout.  These steps MUST be done as 
-separate releases because otherwise keys may not be available to decrypt data, 
+The keys are stored in the keyfile, configurable as below.  Keys are numbered
+starting at 1.  Numbers must never be reused.  Typically key rotation will be
+done in several steps, each with its own rollout.  These steps MUST be done as
+separate releases because otherwise keys may not be available to decrypt data,
 and so things may not work.
 
 ## keyfile location
@@ -57,23 +54,23 @@ so for example:
        9: Ceixei4shelohxee1ohdoochuliebael1kae8eit0Geeth1so9fohZi0cohs8go4
        10: boreiDe0shueNgie7shai7ooc1yaeveiKeihuox0xahp1hai8phe7aephiel2oob
 
-In general we assume key spefications to use numeric keys within the named 
-key hash.  This makes key rotation a lot easier and prevents reusing key 
+In general we assume key spefications to use numeric keys within the named
+key hash.  This makes key rotation a lot easier and prevents reusing key
 numbers.
 
 Key names may not contain = or -.
 
 All keys listed can be used for decryption (with the special 'none' key used if
-no key number is specified in the cyphertex), but by default only the default 
+no key number is specified in the cyphertex), but by default only the default
 keynumber (default\_keynum, in this case 9) is used for encrypting.
 
-The keynumber is specified in the resulting cyphertext so we know which key 
+The keynumber is specified in the resulting cyphertext so we know which key
 to use for decrypting the cyphertext even if we don't try to decrypt it.  This
 allows:
 
 - Key checking
 
-    If you store cyphertext in your rdbms, you can check which keys are used before 
+    If you store cyphertext in your rdbms, you can check which keys are used before
     you remove decryption support for a key.
 
 - Orderly key rotation
@@ -112,7 +109,7 @@ This means it is safe then to go onto the second step.
 
 ## Step 2:  Setting the new key as default
 
-Once the new keys have been released, the next step is to change the default 
+Once the new keys have been released, the next step is to change the default
 keynumber.  Data encrypted in this way will be available even to servers waiting
 to be updated because the keys have previously been rolled out.  To do this,
 simply change the default\_keynum:
@@ -133,12 +130,12 @@ Now all new data will be encrypted using keynumber 2.
 
 ## Step 3:  Retiring the old key
 
-Once the old key is no longer being used, it can be retired by deleting the 
+Once the old key is no longer being used, it can be retired by deleting the
 row.
 
 ## The Special 'none' keynum
 
-For aes keys before the key versioning was introduced, there is no keynum 
+For aes keys before the key versioning was introduced, there is no keynum
 associated with the cyphertext, so we use this key.
 
 # CONFIGURATION PARAMETERS
@@ -170,7 +167,7 @@ demand or by reload\_keyfile() below
 
 ## reload\_keyhash
 
-Can be called as an object method or function (i.e. 
+Can be called as an object method or function (i.e.
 Crypt::NamedKeys::reload\_keyhash()
 
 Loads or reloads the keyfile.  Can be used via event handlers to reload
@@ -200,7 +197,7 @@ undef if decryption failed.
 
 ## $self->encrypt\_payload(data  => $data)
 
-Encrypts data using _encrypt\_data_ and returns result as a string including 
+Encrypts data using _encrypt\_data_ and returns result as a string including
 both cyphertext and hmac in base-64 format.  This can work on arbitrary data
 structures, scalars, and references provided that the data can be serialized
 as an attribute on a JSON document.
